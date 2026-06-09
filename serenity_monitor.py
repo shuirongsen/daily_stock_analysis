@@ -15,7 +15,8 @@ PUSHPLUS_TOKEN     = os.environ.get('PUSHPLUS_TOKEN', '')
 QQ_EMAIL           = os.environ.get('QQ_EMAIL', '')
 QQ_EMAIL_PASS      = os.environ.get('QQ_EMAIL_PASS', '')
 # 多收件人：逗号分隔，不填则默认发给 QQ_EMAIL 自己
-QQ_EMAIL_RECEIVERS = os.environ.get('QQ_EMAIL_RECEIVERS', QQ_EMAIL)
+_receivers_raw     = os.environ.get('QQ_EMAIL_RECEIVERS', '').strip()
+QQ_EMAIL_RECEIVERS = _receivers_raw if _receivers_raw else QQ_EMAIL
 
 TWITTER_USERNAME = 'aleabitoreddit'
 VAR_NAME = 'SERENITY_LAST_TWEET_ID'
