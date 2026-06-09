@@ -9,11 +9,13 @@ import requests
 import xml.etree.ElementTree as ET
 from email.mime.text import MIMEText
 
-GITHUB_TOKEN   = os.environ['GITHUB_TOKEN']
-GITHUB_REPO    = os.environ['GITHUB_REPOSITORY']
-PUSHPLUS_TOKEN = os.environ.get('PUSHPLUS_TOKEN', '')
-QQ_EMAIL       = os.environ.get('QQ_EMAIL', '')
-QQ_EMAIL_PASS  = os.environ.get('QQ_EMAIL_PASS', '')
+GITHUB_TOKEN       = os.environ['GITHUB_TOKEN']
+GITHUB_REPO        = os.environ['GITHUB_REPOSITORY']
+PUSHPLUS_TOKEN     = os.environ.get('PUSHPLUS_TOKEN', '')
+QQ_EMAIL           = os.environ.get('QQ_EMAIL', '')
+QQ_EMAIL_PASS      = os.environ.get('QQ_EMAIL_PASS', '')
+# 多收件人：逗号分隔，不填则默认发给 QQ_EMAIL 自己
+QQ_EMAIL_RECEIVERS = os.environ.get('QQ_EMAIL_RECEIVERS', QQ_EMAIL)
 
 TWITTER_USERNAME = 'aleabitoreddit'
 VAR_NAME = 'SERENITY_LAST_TWEET_ID'
@@ -87,13 +89,15 @@ def send_email(subject, body):
     if not QQ_EMAIL:
         return
     try:
+        receivers = [r.strip() for r in QQ_EMAIL_RECEIVERS.split(',') if r.strip()]
         msg = MIMEText(body, 'plain', 'utf-8')
         msg['From'] = QQ_EMAIL
-        msg['To'] = QQ_EMAIL
+        msg['To'] = ', '.join(receivers)
         msg['Subject'] = subject
         with smtplib.SMTP_SSL('smtp.qq.com', 465, timeout=15) as s:
             s.login(QQ_EMAIL, QQ_EMAIL_PASS)
-            s.send_message(msg)
+            s.sendmail(QQ_EMAIL, receivers, msg.as_string())
+        print(f'邮件已发送给: {msg["To"]}')
     except Exception as e:
         print(f'邮件失败: {e}')
 

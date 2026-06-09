@@ -28,8 +28,9 @@ jobs:
 
       - name: Run monitor
         env:
-          GITHUB_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
-          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
-          QQ_EMAIL:       ${{ secrets.QQ_EMAIL }}
-          QQ_EMAIL_PASS:  ${{ secrets.QQ_EMAIL_PASS }}
+          GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
+          PUSHPLUS_TOKEN:     ${{ secrets.PUSHPLUS_TOKEN }}
+          QQ_EMAIL:           ${{ secrets.QQ_EMAIL }}
+          QQ_EMAIL_PASS:      ${{ secrets.QQ_EMAIL_PASS }}
+          QQ_EMAIL_RECEIVERS: ${{ secrets.QQ_EMAIL_RECEIVERS }}
         run: python serenity_monitor.py
