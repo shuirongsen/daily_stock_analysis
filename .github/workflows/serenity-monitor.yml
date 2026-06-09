@@ -30,13 +30,12 @@ jobs:
           key: pip-serenity-v1
 
       - name: Install dependencies
-        run: pip install "twikit>=2.0" requests
+        run: pip install requests
 
       - name: Run monitor
         env:
-          GITHUB_TOKEN:    ${{ secrets.GITHUB_TOKEN }}
-          TWITTER_COOKIES: ${{ secrets.TWITTER_COOKIES }}
-          PUSHPLUS_TOKEN:  ${{ secrets.PUSHPLUS_TOKEN }}
-          QQ_EMAIL:        ${{ secrets.QQ_EMAIL }}
-          QQ_EMAIL_PASS:   ${{ secrets.QQ_EMAIL_PASS }}
+          GITHUB_TOKEN:   ${{ secrets.GITHUB_TOKEN }}
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+          QQ_EMAIL:       ${{ secrets.QQ_EMAIL }}
+          QQ_EMAIL_PASS:  ${{ secrets.QQ_EMAIL_PASS }}
         run: python serenity_monitor.py
